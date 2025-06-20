@@ -32,7 +32,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   airflow-webserver:
-    image: apache/airflow:2.9.1
+    build:
+      context: .
+      dockerfile: AirflowDockerfile
+
     depends_on:
       - postgres
     environment:
@@ -43,6 +46,7 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/batch_features:/opt/airflow/batch_features
       - ./requirements.txt:/requirements.txt
+      - ./data/batch_results:/data/batch_results
     ports:
       - "8080:8080"
     command: >
@@ -54,7 +58,9 @@ services:
       "
 
   airflow-scheduler:
-    image: apache/airflow:2.9.1
+    build:
+      context: .
+      dockerfile: AirflowDockerfile 
     depends_on:
       - postgres
     environment:
@@ -65,13 +71,13 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/batch_features:/opt/airflow/batch_features
       - ./requirements.txt:/requirements.txt
+      - ./data/batch_results:/data/batch_results
     command: >
       bash -c "
         pip install -r /requirements.txt &&
         airflow scheduler
       "
       
-
 volumes:
   postgres_data:
   redis_data:

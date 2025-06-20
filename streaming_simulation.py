@@ -70,33 +70,31 @@ class stream_data():
                             break
 
                         resp = requests.post(endpoint_url, json=row)
-                        print(f"[{i+1}] Sent row to {endpoint_url} (status={resp.status_code})")
+                        logging.info(f"[{i+1}] Sent row to {endpoint_url} (status={resp.status_code})")
 
 
                         time.sleep(delay)
 
         except Exception as e:
-            print(f"Error: {e}")
+            logging.error(f"Error: {e}")
 
 
 
-#print(requests.get('http://localhost:8000/health').content)
-print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-#stream_data().stream_json(
-#    file_url="https://data-architect-test-source.s3-sa-east-1.amazonaws.com/order.json.gz",
-#    id='order_id',
-#    delay=0.01,
-#    n=10,
-#    url='http://localhost:8000/order-event/'
-#)
-#
-#stream_data().stream_json(
-#    file_url="https://data-architect-test-source.s3-sa-east-1.amazonaws.com/status.json.gz",
-#    id='status_id',
-#    delay=0.01,
-#    n=10,
-#    url='http://localhost:8000/status-event/'
-#)
+stream_data().stream_json(
+    file_url="https://data-architect-test-source.s3-sa-east-1.amazonaws.com/order.json.gz",
+    id='order_id',
+    delay=0.01,
+    n=10,
+    url='http://localhost:8000/order-event/'
+)
+
+stream_data().stream_json(
+    file_url="https://data-architect-test-source.s3-sa-east-1.amazonaws.com/status.json.gz",
+    id='status_id',
+    delay=0.01,
+    n=10,
+    url='http://localhost:8000/status-event/'
+)
 
 stream_data().stream_csv(
     file_url="https://data-architect-test-source.s3-sa-east-1.amazonaws.com/restaurant.csv.gz",
