@@ -16,6 +16,7 @@ class stream_data():
         pass
 
     def stream_json(self, file_url: str, id:str, url:str, delay=0.005, n=10):
+        '''loads json data on api'''
         try:
             response = requests.get(file_url, stream=True)
             response.raise_for_status()
@@ -23,14 +24,13 @@ class stream_data():
             with gzip.GzipFile(fileobj=response.raw, mode='rb') as gz_file:
                 for i, line in enumerate(gz_file):
                     if i >= n:
-                        break            
+                        break   
 
                     try:
                         data = json.loads(line.decode('utf-8'))
                         data_id = data.get(id)
-                        print(data_id)
                         if not data_id:
-                            print(data)
+                            logging.error('error on :',data)
 
                         
                         resp = requests.post(
@@ -56,6 +56,7 @@ class stream_data():
         n: int = 10,
         
     ):
+        '''loads csv data on api'''
         try:
             with requests.get(file_url, stream=True) as response:
                 response.raise_for_status()
