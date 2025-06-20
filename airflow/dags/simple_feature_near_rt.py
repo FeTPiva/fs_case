@@ -42,7 +42,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='redis_to_parquet',
+    dag_id='simple_feature',
     schedule_interval="*/10 * * * *", #run every 10 minutes
     default_args=default_args,
     catchup=False

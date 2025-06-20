@@ -23,7 +23,7 @@ fast_app.include_router(consumer_router)
 fast_app.include_router(status_router)
 
 #temp
-fast_app.include_router(redis_router)
+#fast_app.include_router(redis_router)
 
 
 
